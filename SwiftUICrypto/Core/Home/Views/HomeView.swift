@@ -19,6 +19,10 @@ struct HomeView: View {
             VStack {
                 homeHeader
                 
+                HomeStatsView(screenSize: $screenSize, showPortfolio: $showPortfolio)
+                
+                SearchBarView(searchText: $vm.searchText)
+                
                 columnTitles
                 
                 if !showPortfolio {
@@ -34,6 +38,10 @@ struct HomeView: View {
                 Spacer(minLength: 0)
             }
         }
+        ///This
+        /// overlay = GeometryReader
+        /// onPreferenceChange = SizePreferenceKey
+        /// is used for dynamic ladsacpe Mode changes to get true screenSize
         .overlay {
             GeometryReader { proxy in
                 Color.clear.preference(key: SizePreferenceKey.self, value: proxy.size)
@@ -79,7 +87,7 @@ extension HomeView {
     private var allCoinsList: some View {
         List {
             ForEach(vm.allCoins) { coin in
-                CoinRowView(coin: coin, showHoldingsColumn: $showPortfolio)
+                CoinRowView(coin: coin, screenSize: $screenSize, showHoldingsColumn: $showPortfolio)
                     .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
             }
         }
@@ -89,7 +97,7 @@ extension HomeView {
     private var portfolioCoinsList: some View {
         List {
             ForEach(vm.portfolioCoins) { coin in
-                CoinRowView(coin: coin, showHoldingsColumn: $showPortfolio)
+                CoinRowView(coin: coin, screenSize: $screenSize, showHoldingsColumn: $showPortfolio)
                     .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
             }
         }

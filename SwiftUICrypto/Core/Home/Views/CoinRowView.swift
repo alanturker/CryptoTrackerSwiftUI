@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CoinRowView: View {
     let coin: CoinModel
-    @State var screenSize: CGSize = .zero
+    @Binding var screenSize: CGSize
     @Binding var showHoldingsColumn: Bool
     
     var body: some View {
@@ -20,18 +20,6 @@ struct CoinRowView: View {
                 middleColumn
             }
             rightColumn
-        }
-        ///This
-        /// overlay = GeometryReader
-        /// onPreferenceChange = SizePreferenceKey
-        /// is used for dynamic ladsacpe Mode changes to get true screenSize
-        .overlay {
-            GeometryReader { proxy in
-                Color.clear.preference(key: SizePreferenceKey.self, value: proxy.size)
-            }
-        }
-        .onPreferenceChange(SizePreferenceKey.self) { value in
-            screenSize = value
         }
         .font(.subheadline)
     }
@@ -78,5 +66,5 @@ extension CoinRowView {
 
 #Preview(traits: .sizeThatFitsLayout) {
         let preview = DeveloperPreview()
-        CoinRowView(coin: preview.coin, showHoldingsColumn: .constant(true))
+    CoinRowView(coin: preview.coin, screenSize: .constant(CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)), showHoldingsColumn: .constant(true))
 }
